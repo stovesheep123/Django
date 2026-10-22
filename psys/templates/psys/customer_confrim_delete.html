@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CYBER-SYS // 得意先削除確認</title>
+    <style>
+        body { background-color: #0b0f19; color: #00f0ff; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 40px; }
+        h1 { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.5); }
+        .container { background: rgba(16, 23, 42, 0.7); border: 1px solid #1e293b; border-radius: 12px; padding: 30px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.1); max-width: 600px; margin: auto; backdrop-filter: blur(10px); }
+        p { color: #cbd5e1; }
+        .warning { color: #f87171; font-weight: bold; }
+        button[type="submit"] { background: linear-gradient(135deg, #ef4444, #b91c1c); border: none; color: #fff; font-weight: bold; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; box-shadow: 0 0 10px rgba(239,68,68,0.4); transition: 0.3s; margin-top: 20px; }
+        button[type="submit"]:hover { opacity: 0.8; box-shadow: 0 0 20px rgba(239,68,68,0.8); }
+        a { color: #38bdf8; text-decoration: none; display: inline-block; margin-top: 20px; }
+        a:hover { text-shadow: 0 0 8px #38bdf8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>[ SYSTEM : WARNING // DELETE ]</h1>
+        <p class="warning">以下のデータを削除しようとしています。この操作は取り消せません。</p>
+        
+        <p><strong>CODE:</strong> {{ customer.customer_code }}<br>
+           <strong>NAME:</strong> {{ customer.customer_name }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">EXECUTE DELETE</button>
+        </form>
+
+        <br>
+        <a href="{% url 'customer_list' %}">&lt;&lt; 一覧画面へキャンセルして戻る</a>
+    </div>
+</body>
+</html>

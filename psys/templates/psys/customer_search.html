@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CYBER-SYS // 得意先検索</title>
+    <style>
+        body { background-color: #0b0f19; color: #00f0ff; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 40px; }
+        h1, h2 { color: #00f0ff; text-shadow: 0 0 10px rgba(0,240,255,0.5); }
+        .container { background: rgba(16, 23, 42, 0.7); border: 1px solid #1e293b; border-radius: 12px; padding: 30px; box-shadow: 0 0 20px rgba(0, 240, 255, 0.1); max-width: 800px; margin: auto; backdrop-filter: blur(10px); }
+        .navbar { display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        .navbar a { color: #94a3b8; text-decoration: none; font-weight: bold; transition: 0.2s; }
+        .navbar a.active, .navbar a:hover { color: #00f0ff; text-shadow: 0 0 8px #00f0ff; }
+        input[type="text"] { background: #020617; border: 1px solid #00f0ff; color: #fff; padding: 10px; border-radius: 6px; width: 60%; outline: none; box-shadow: 0 0 5px rgba(0,240,255,0.2); }
+        button { background: linear-gradient(135deg, #00f0ff, #0077ff); border: none; color: #020617; font-weight: bold; padding: 10px 20px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 10px rgba(0,240,255,0.4); transition: 0.3s; }
+        button:hover { opacity: 0.8; box-shadow: 0 0 20px rgba(0,240,255,0.8); }
+        ul { list-style: none; padding: 0; }
+        li { background: rgba(30, 41, 59, 0.5); margin: 8px 0; padding: 12px; border-left: 3px solid #00f0ff; border-radius: 4px; color: #cbd5e1; }
+        hr { border: 0; height: 1px; background: #1e293b; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="{% url 'customer_search' %}" class="active">[ 検索 ]</a>
+            <a href="{% url 'customer_list' %}">[ 一覧 ]</a>
+            <a href="{% url 'customer_create' %}">[ 新規登録 ]</a>
+        </div>
+
+        <h1>[ SYSTEM : CUSTOMER SEARCH ]</h1>
+        
+        <form method="get" action="">
+            <input type="text" name="q" value="{{ query }}" placeholder="得意先名を入力...">
+            <button type="submit">SEARCH</button>
+        </form>
+
+        <hr>
+
+        <h2>QUERY RESULTS</h2>
+        <ul>
+            {% for customer in customers %}
+                <li>&gt; <strong>{{ customer.customer_code }}</strong> : {{ customer.customer_name }} [ TEL: {{ customer.customer_telno }} ]</li>
+            {% empty %}
+                <li>NO DATA FOUND.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

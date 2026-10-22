@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CYBER-SYS // 得意先一覧</title>
+    <style>
+        body { background-color: #0b0f19; color: #00f0ff; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 40px; }
+        h1 { color: #00f0ff; text-shadow: 0 0 10px rgba(0,240,255,0.5); }
+        .container { background: rgba(16, 23, 42, 0.7); border: 1px solid #1e293b; border-radius: 12px; padding: 30px; box-shadow: 0 0 20px rgba(0, 240, 255, 0.1); max-width: 1050px; margin: auto; backdrop-filter: blur(10px); }
+        .navbar { display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        .navbar a { color: #94a3b8; text-decoration: none; font-weight: bold; transition: 0.2s; }
+        .navbar a.active, .navbar a:hover { color: #00f0ff; text-shadow: 0 0 8px #00f0ff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #1e293b; padding: 12px; text-align: left; }
+        th { background: rgba(0, 240, 255, 0.1); color: #00f0ff; text-shadow: 0 0 5px rgba(0,240,255,0.3); }
+        td { color: #cbd5e1; background: rgba(2, 6, 23, 0.4); }
+        tr:hover td { background: rgba(0, 240, 255, 0.05); color: #fff; }
+        a { color: #38bdf8; text-decoration: none; }
+        a:hover { text-shadow: 0 0 8px #38bdf8; }
+        .action-links a { margin-right: 10px; font-size: 0.9rem; }
+        .btn-delete { color: #f87171 !important; }
+        .pagination { margin-top: 20px; text-align: center; color: #94a3b8; }
+        .pagination a { padding: 5px 10px; border: 1px solid #1e293b; background: #020617; border-radius: 4px; margin: 0 3px; }
+        .pagination a:hover { border-color: #00f0ff; color: #00f0ff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="{% url 'customer_search' %}">[ 検索 ]</a>
+            <a href="{% url 'customer_list' %}" class="active">[ 一覧 ]</a>
+            <a href="{% url 'customer_create' %}">[ 新規登録 ]</a>
+        </div>
+
+        <h1>[ SYSTEM : CUSTOMER DATABASE ]</h1>
+
+        <table>
+            <tr>
+                <th>CODE</th>
+                <th>NAME</th>
+                <th>TEL</th>
+                <th>POSTAL</th>
+                <th>ADDRESS</th>
+                <th>DISCOUNT</th>
+                <th>ACTIONS</th>
+            </tr>
+            {% for customer in page_obj %}
+            <tr>
+                <td>{{ customer.customer_code }}</td>
+                <td>{{ customer.customer_name }}</td>
+                <td>{{ customer.customer_telno }}</td>
+                <td>{{ customer.customer_postalcode }}</td>
+                <td>{{ customer.customer_address }}</td>
+                <td>{{ customer.discount_rate }}%</td>
+                <td class="action-links">
+                    <a href="{% url 'customer_update' customer.customer_code %}">[ 編集 ]</a>
+                    <a href="{% url 'customer_delete' customer.customer_code %}" class="btn-delete">[ 削除 ]</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align:center;">NO DATA RECORDED.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- ページネーションコントロール -->
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; FIRST</a>
+                <a href="?page={{ page_obj.previous_page_number }}">PREV</a>
+            {% endif %}
+            
+            <span>PAGE {{ page_obj.number }} OF {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">NEXT</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">LAST &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
